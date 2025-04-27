@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Follow Back Checker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <h1>Instagram Follow Back Checker</h1>
+    <p>Upload your Instagram data (ZIP file) to check who doesn't follow you back!</p>
+
+    <!-- Upload button for ZIP file -->
+    <input type="file" id="zip-file" accept=".zip" />
+    <button onclick="processZip()">Check Follow Back</button>
+
+    <!-- Results display -->
+    <div id="results"></div>
+
+    <script>
+        function processZip() {
+            const fileInput = document.getElementById('zip-file');
+            if (!fileInput.files.length) {
+                alert("Please upload a ZIP file!");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                JSZip.loadAsync(e.target.result).then(function(zip) {
+                    // Read the JSON files inside the ZIP
+                    const followersFile = zip.file("connections/followers_and_following/followers_1.json");
+                    const followingFile = zip.file("connections/followers_and_following/following.json");
+
+                    if (followersFile && followingFile) {
+                        Promise.all([followersFile.async("string"), followingFile.async("string")]).then(function([followersData, followingData]) {
+                            try {
+                                const followers = JSON.parse(followersData);
+                                const following = JSON.parse(followingData);
+
+                                // Extract usernames from followers data (using 'value' from string_list_data)
+                                const followersSet = new Set();
+                                followers.forEach(user => {
+                                    user.string_list_data.forEach(follower => {
+                                        followersSet.add(follower.value);
+                                    });
+                                });
+
+                                // Extract usernames from the following data (same 'value' from string_list_data)
+                                const followingSet = new Set();
+                                following.relationships_following.forEach(item => {
+                                    item.string_list_data.forEach(followingUser => {
+                                        followingSet.add(followingUser.value);
+                                    });
+                                });
+
+                                // Find users who follow but don't follow back
+                                const nonFollowersBack = [...followingSet].filter(user => !followersSet.has(user));
+
+                                displayResults(nonFollowersBack);
+                            } catch (error) {
+                                alert("Error parsing the JSON files. Please make sure the data is in the correct format.");
+                                console.error(error);
+                            }
+                        });
+                    } else {
+                        alert("Could not find the required JSON files. Please check your ZIP file.");
+                    }
+                }).catch(function(error) {
+                    alert("Error reading ZIP file.");
+                    console.error(error);
+                });
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function displayResults(nonFollowersBack) {
+            const resultsDiv = document.getElementById("results");
+
+            if (nonFollowersBack.length === 0) {
+                resultsDiv.innerHTML = "<p>Everyone follows you back!</p>";
+            } else {
+                let resultHTML = "<h2>People who don't follow you back:</h2><ul>";
+                nonFollowersBack.forEach(user => {
+                    resultHTML += `<li>${user}</li>`;
+                });
+                resultHTML += "</ul>";
+                resultsDiv.innerHTML = resultHTML;
+            }
+        }
+    </script>
+</body>
+</html>
