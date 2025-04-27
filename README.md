@@ -1,1 +1,1 @@
-skparidhi.github.io
+insta_follow.github.io
