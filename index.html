@@ -5,15 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Follow Back Checker</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+            color: #262626;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3f729b;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Upload Button Styles */
+        input[type="file"] {
+            display: none;
+        }
+
+        .upload-button {
+            display: inline-block;
+            background-color: #3897f0;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .follow-back-button {
+            display: inline-block;
+            background-color: #3897f0;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .follow-back-button:hover {
+            background-color: #4b9df5;
+        }
+
+        .upload-button:hover {
+            background-color: #4b9df5;
+        }
+
+        button {
+            background-color: #3897f0;
+            color: white;
+            
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            
+        }
+
+        button:hover {
+            background-color: #4b9df5;
+        }
+
+        /* Results Section */
+        #results {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            background-color: #f7f7f7;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        ul li:hover {
+            background-color: #efefef;
+        }
+    </style>
 </head>
 <body>
     <h1>Instagram Follow Back Checker</h1>
     <p>Upload your Instagram data (ZIP file) to check who doesn't follow you back!</p>
 
     <!-- Upload button for ZIP file -->
+    <center>
+    <label for="zip-file" class="upload-button">Upload ZIP File</label>
     <input type="file" id="zip-file" accept=".zip" />
-    <button onclick="processZip()">Check Follow Back</button>
 
+    <button class="follow-back-button" onclick="processZip()">Check Follow Back</button>
+</center>
     <!-- Results display -->
     <div id="results"></div>
 
