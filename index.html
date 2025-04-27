@@ -23,7 +23,7 @@
 
         h1 {
             text-align: center;
-            color: #3f729b;
+            color: #ffffff;
             font-size: 36px;
             margin-bottom: 20px;
         }
@@ -32,6 +32,7 @@
             text-align: center;
             font-size: 18px;
             margin-bottom: 20px;
+            color: #ffffff;
         }
 
         /* Upload Button Styles */
@@ -39,9 +40,18 @@
             display: none;
         }
 
+        .gradient {
+        background: #833ab4;
+        background: linear-gradient(
+        to right,
+        #833ab4,#fd1d1d,#fcb045
+        );
+        }
+
+
         .upload-button {
             display: inline-block;
-            background-color: #3897f0;
+            background-color: #000000;
             color: white;
             padding: 12px 25px;
             border-radius: 30px;
@@ -54,7 +64,7 @@
 
         .follow-back-button {
             display: inline-block;
-            background-color: #3897f0;
+            background-color: #000000;
             color: white;
             padding: 15px 25px;
             border-radius: 30px;
@@ -66,11 +76,11 @@
         }
 
         .follow-back-button:hover {
-            background-color: #4b9df5;
+            background-color: #490000;
         }
 
         .upload-button:hover {
-            background-color: #4b9df5;
+            background-color: #490000;
         }
 
         label {
@@ -135,9 +145,9 @@
         }
     </style>
 </head>
-<body>
-    <h1>Instagram Follow Back Checker</h1>
-    <p>Upload your Instagram data (ZIP file) to check who doesn't follow you back!</p>
+<body class="gradient">
+    <h1>Instagram follow back checker</h1>
+    <p>Upload your Instagram data (.zip file) to check who doesn't follow you back!</p>
 
     <!-- Upload button for ZIP file -->
     <center>
